@@ -1,20 +1,23 @@
 {
-  "name": "server",
+  "name": "new-folder",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skassanjee/MERN-Memories.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skassanjee/MERN-Memories/issues"
+  },
+  "homepage": "https://github.com/skassanjee/MERN-Memories#readme",
   "dependencies": {
-    "body-parser": "^1.19.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "mongoose": "^6.2.8",
-    "nodemon": "^2.0.15"
+    "mongoose": "^6.2.8"
   }
 }
