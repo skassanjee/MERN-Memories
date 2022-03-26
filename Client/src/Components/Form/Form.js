@@ -8,7 +8,7 @@ const Form = () => {
 
     const [location, setLocation] = useState('')
     const [date, setDate] = useState('')
-    const [file, setFile] =useState('')
+    const [file, setFile] = useState('')
     const [loading, setLoading] = useState('')
 
 
@@ -24,10 +24,13 @@ const Form = () => {
             const { data } = await axios.post(`/api/posts`, {
                 location,
                 date,
-                file
+                file: file.base64.base64
             });
             setLoading(false);
-            toast.success(data.message)
+            setLocation('')
+            setFile('')
+            setDate('')
+            toast.success('Your trip has been added!')
         } catch (err) {
             setLoading(false)
             toast.error(
