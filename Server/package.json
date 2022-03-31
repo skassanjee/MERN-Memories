@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/skassanjee/MERN-Memories#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.8"
   }
 }

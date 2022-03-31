@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import Post from '../Post/Post'
 
@@ -6,7 +6,7 @@ const Posts = () => {
 
   const [data, setData] = useState([])
 
-  const posts = axios.get('/api/posts')
+  axios.get('/api/posts')
   .then((result) => {
       setData(result.data)
     console.log(data)
