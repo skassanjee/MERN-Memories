@@ -3,14 +3,29 @@ import PostMessage from '../models/post.js'
 
 const router = express.Router()
 
-router.post('/api/posts', (req, res) => {
-    const { location, date, file } = req.body
+router.post('/api/posts', async (req, res) => {
+    const {creator,
+        title,
+        message,
+        tags,
+        selectedFile} = req.body
 
-    const post = new PostMessage({location, date, file})
 
-    post.save()
+        try {
+            
+            const post = await new PostMessage({creator,
+                title,
+                message,
+                tags,
+                selectedFile
+            })
 
-    res.json(200)
+            post.save()
+
+            res.status(200)
+        } catch (error) {
+            console.log(error)
+        }
 })
 
 router.get('/api/posts', async (req, res) => {

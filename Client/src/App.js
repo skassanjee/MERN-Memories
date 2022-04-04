@@ -1,25 +1,41 @@
-import Navbar from "./Components/Navbar/Navbar";
-import Form from "./Components/Form/Form";
-import Posts from "./Components/Posts/Posts";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from "./Pages/Home/Home";
-import Auth from "./Pages/Auth/Auth";
+import React, { useState, useEffect } from 'react';
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+// import { useDispatch } from 'react-redux';
 
-function App() {
+import Posts from './Components/Posts/Posts.js'
+import Form from './Components/Form/Form.js'
+import useStyles from './styles';
+// import memories from './images/memories.png';
+
+const App = () => {
+  // const [currentId, setCurrentId] = useState(0);
+  // const dispatch = useDispatch();
+  const classes = useStyles();
+
+  // useEffect(() => {
+  //   dispatch(getPosts());
+  // }, [currentId, dispatch]);
 
   return (
-    <div>
-      <BrowserRouter>
-        <Navbar />  
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/auth' element={<Auth />} />
-        </Routes>
-          
-      </BrowserRouter>
-
-    </div>
+    <Container maxWidth="lg">
+      <AppBar className={classes.appBar} position="static" color="inherit">
+        <Typography className={classes.heading} variant="h2" align="center">Memories</Typography>
+        {/* <img className={classes.image} src={memories} alt="icon" height="60" /> */}
+      </AppBar>
+      <Grow in>
+        <Container>
+          <Grid container justify="space-between" alignItems="stretch" spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Posts  />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Form  />
+            </Grid>
+          </Grid>
+        </Container>
+      </Grow>
+    </Container>
   );
-}
+};
 
 export default App;
