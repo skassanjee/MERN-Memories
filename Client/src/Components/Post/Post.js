@@ -4,11 +4,19 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
+import axios from 'axios';
 
 import useStyles from './styles';
 
 const Post = ({ post }) => {
   const classes = useStyles();
+
+const postDelete = (e, id) => {
+  e.preventDefault()
+  axios.delete(`/api/posts/delete/${id}`)
+  .then(console.log('post deleted'))
+  .catch(err => console.log(err))
+}
 
   return (
     <Card className={classes.card}>
@@ -29,7 +37,7 @@ const Post = ({ post }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" ><ThumbUpAltIcon fontSize="small" /> Like {post.likeCount} </Button>
-        <Button size="small" color="primary"><DeleteIcon fontSize="small" /> Delete</Button>
+        <Button size="small" color="primary" onClick={(e) => postDelete(e, post._id)}><DeleteIcon fontSize="small" /> Delete</Button>
       </CardActions>
     </Card>
   );

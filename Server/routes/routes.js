@@ -38,4 +38,14 @@ router.get('/api/posts', async (req, res) => {
         }
     }
 )
+
+router.delete('/api/posts/delete/:id', async (req, res) => {
+
+    const { id } = req.params
+
+await PostMessage.findByIdAndRemove(id)
+
+res.json({message: 'post deleted'})
+    
+})
 export default router
