@@ -1,10 +1,11 @@
 import express from 'express'
 import PostMessage from '../models/post.js'
-
+import auth from '../middleware/auth.js'
 const router = express.Router()
 
-router.post('/api/posts', async (req, res) => {
+router.post('/api/posts', auth, async (req, res) => {
     const {creator,
+        name,
         title,
         message,
         tags,
@@ -13,11 +14,13 @@ router.post('/api/posts', async (req, res) => {
 
         try {
             
-            const post = await new PostMessage({creator,
+            const post = await new PostMessage({creator : req.userId, createdAt: new Date().toISOString(),
                 title,
+                name,
                 message,
                 tags,
-                selectedFile
+                selectedFile,
+                creator
             })
 
             post.save()
@@ -39,7 +42,7 @@ router.get('/api/posts', async (req, res) => {
     }
 )
 
-router.delete('/api/posts/delete/:id', async (req, res) => {
+router.delete('/api/posts/delete/:id',auth, async (req, res) => {
 
     const { id } = req.params
 

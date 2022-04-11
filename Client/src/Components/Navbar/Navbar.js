@@ -5,32 +5,39 @@ import React, {useState} from 'react'
 import { useEffect } from "react";
 import { useNavigate, useLocation  } from "react-router";
 
-
+import decode from 'jwt-decode';
 export default function Navbar() {
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(JSON.parse(localStorage.getItem('profile')))
+  
+  
   const logout = () => {  
     localStorage.clear()
     setUser(null)
     navigate('/auth')
   }
+  
   useEffect(() => {
     const token = user?.token;
 
-    setUser(JSON.parse(localStorage.getItem('profile')))
+    if (token) {
+      const decodedToken = decode(token);
 
-    
-  },[location])
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+
+    setUser(JSON.parse(localStorage.getItem('profile')));
+  }, [location]);
 
   
   const classes = useStyles();
 
     return (
     <AppBar className={classes.appBar} position="static" color="inherit">
+      <Typography variant='h5'> Travel Tracker</Typography>
           <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>

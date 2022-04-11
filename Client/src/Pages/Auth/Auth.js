@@ -6,31 +6,54 @@ import Input from '../../Components/Input/Input'
 import GoogleLogin from 'react-google-login'
 import Icon from './Icon'
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios'
 
 const Auth = () => {
 
   const classes = useStyles()
   const navigate = useNavigate()
 
+  
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
+
   const [showPassword, setShowPassword] =useState(false)
   const handleShowPassword = () => setShowPassword(!showPassword);
+  const [form, setForm] = useState(initialState)
 
 
 
   const [isSignup, setIsSignup] = useState(false)
   
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  }
+    if (isSignup) {
+      console.log(form)
+     await axios.post('/signup', form)
+     .then( res => {
+      localStorage.setItem('profile', JSON.stringify(res.data))
+     })
+     navigate('/')
+    } 
+    
+    try {
+      await axios.post('/signin', form).then(res => localStorage.setItem('profile', JSON.stringify(res.data)))
+      //save result to local storage
+      
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+    }
 
-  const handleChange = () => {
 
-  }
+  };
+
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   
   const switchMode = () => {
     setIsSignup((previsSignup) => !previsSignup)
-    handleShowPassword(false)
+    setShowPassword(false)
   }
 
   const googleSuccess = async (res) => {
@@ -50,6 +73,10 @@ const Auth = () => {
   const googleFailure = () => {
     console.log('Google Sign in was unsuccessful. Try again laterr.')
   }
+
+
+
+  
   return (
     <Container component="main" maxWidth='xs'>
       <Paper className={classes.paper} elevation={3}>
@@ -60,19 +87,27 @@ const Auth = () => {
         <Typography variant="h5">{isSignup ? 'Sign up' : 'Sign In'}</Typography>
 
         <form className={classes.form} onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             {
                     isSignup && (
                       <>
-                        <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
-                        <Input name="lastName" label="Last Name" handleChange={handleChange} half />
+        
+                      <Input  name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
+                      <Input name="lastName" label="Last Name" handleChange={handleChange} half />
+
+                        
                       </>
                       )}
                       <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
                       <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                       { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> }
                     </Grid>
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                      { isSignup ? 'Sign Up' : 'Sign In' }
+                    </Button>
+
                     <GoogleLogin 
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENT}
                       render={(renderProps) => (
                         <Button className={classes.googleButton} 
                         color='primary' 
@@ -87,9 +122,7 @@ const Auth = () => {
                       onFailure={googleFailure}
                       cookiePolicy="single_host_origin"
                       />
-                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                      { isSignup ? 'Sign Up' : 'Sign In' }
-                    </Button>
+
                     <Grid container="flex-end">
                       <Grid item>
                         <Button onClick={switchMode}>

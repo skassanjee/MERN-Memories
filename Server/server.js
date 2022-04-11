@@ -2,6 +2,7 @@ import express from 'express'
 import "dotenv/config"
 import bodyParser from 'body-parser'
 import postRoutes from './routes/routes.js'
+import userRoutes from './routes/user.js'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({limit: '30mb', extended: true}))
 
 app.use(cors())
 app.use(postRoutes)
-
+app.use(userRoutes)
 
 
 

@@ -7,6 +7,7 @@ import useStyles from './styles';
 import Auth from './Pages/Auth/Auth.js'
 import Home from './Pages/Home/Home.js';
 import Navbar from './Components/Navbar/Navbar.js';
+import './App.css'
 
 const App = () => {
   
